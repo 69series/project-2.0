@@ -55,7 +55,7 @@ app.get('/logout', (req, res) => {
     req.logout(function(err) {
         if (err) { return next(err); }
         req.session.destroy();
-        res.send('GOODBYE!');
+        res.send('GOODBYE!, 69series here! THANKs for the signing in, U OWE ME ONE! GOOD DAY SIR');
     });
 });
 app.listen(8080, () => {
