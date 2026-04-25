@@ -27,8 +27,10 @@ async function sendOTP(email) {
     await transporter.sendMail({
         from: process.env.GMAIL_USER,
         to: email,
-        subject: 'Your OTP - project-2.0',
-        text: `Your OTP is: ${otp}. It expires in 5 minutes. resentment is corrossive and i hate it -TS`
+        subject: 'Your OTP - 69s-project-2.0',
+        text: `Your OTP is: ${otp}. It expires in 5 minutes.
+        Resentment is corrossive and I hate it -TS.
+        When You come from NOTHING, You appeciate EVERYTHING -69s`
     });
 
     console.log(`OTP sent to ${email}`);

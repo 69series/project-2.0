@@ -12,15 +12,16 @@ connectDB();
 
 const app = express();
 app.use(express.json());
+app.use(express.static('frontend'));
 
 function isLoggedIn(req, res, next) {
-    if (req.user){
+    if (req.user || req.session.user){
         next();
     } else {
         console.log('security breach');
-        res.sendStatus(401);
+        res.redirect('/');
     } 
-};
+}
  
 app.use(session({
     secret: process.env.SESSION_SECRET,
@@ -45,7 +46,19 @@ app.get('/69s/callback',
 );
 
 app.get('/login', isLoggedIn, (req, res) => {
-    res.send(`login successful! ${req.user.displayName} <a href='/logout'> LOGOUT</a>`);
+    res.sendFile('dashboard.html', { root: 'frontend' });
+});
+
+app.get('/me', isLoggedIn, (req, res) => {
+    const user = req.user || req.session.user;
+    res.json({
+        displayName: user.displayName,
+        email: user.email,
+    });
+});
+
+app.get('/dashboard', isLoggedIn, (req, res) => {
+    res.sendFile('dashboard.html', { root: 'frontend' });
 });
 
 app.get('/unauthorise', (req, res) => {
@@ -56,7 +69,7 @@ app.get('/logout', (req, res) => {
     req.logout(function(err) {
         if (err) { return next(err); }
         req.session.destroy();
-        res.send('GOODBYE! Thanks for signing in!   69series~');
+        res.redirect('/');
     });
 });
 
@@ -66,7 +79,7 @@ app.post('/signup/send-otp', async (req, res) => {
     if (!email) return res.status(400).json({ message: 'Email is required' });
 
     const existingUser = await User.findOne({ email });
-    if (existingUser) return res.status(400).json({ message: 'Email already registered' });
+    if (existingUser && existingUser.isVerified) return res.status(400).json({ message: 'Email already registered' });
 
     try {
         await sendOTP(email);
@@ -114,6 +127,7 @@ app.post('/signin', async (req, res) => {
     if (!isMatch) return res.status(400).json({ message: 'Wrong password' });
 
     req.session.user = user;
+    req.user = user;
     res.json({ message: `Welcome back ${user.displayName}!` });
 });
 

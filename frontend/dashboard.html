@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Project 2.0</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="container">
+        <div class="card">
+
+            <h1 class="logo">Project 2.0</h1>
+            <p class="subtitle" id="welcomeMsg">Welcome!</p>
+
+            <div class="dashboard-info">
+                <p id="userEmail"></p>
+            </div>
+
+            <button class="submit" onclick="logout()">Logout</button>
+
+        </div>
+    </div>
+
+    <script>
+        // Fetch current logged in user info
+        async function loadUser() {
+            try {
+                const res = await fetch('/me');
+                const data = await res.json();
+
+                if (res.ok) {
+                    document.getElementById('welcomeMsg').textContent = `Welcome, ${data.displayName}! Sir/Madam`;
+                    document.getElementById('userEmail').textContent = data.email;
+                } else {
+                    // Not logged in, redirect to login
+                    window.location.href = '/';
+                }
+            } catch (err) {
+                window.location.href = '/';
+            }
+        }
+
+        async function logout() {
+            window.location.href = '/logout';
+        }
+
+        loadUser();
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project 2.0 - Login</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="container">
+        <div class="card">
+
+            <h1 class="logo">69s-Project-2.0</h1>
+            <p class="subtitle">Welcome back!</p>
+
+            <!-- Toggle Buttons -->
+            <div class="toggle">
+                <button id="signinBtn" class="active" onclick="showSignin()">Sign In</button>
+                <button id="signupBtn" onclick="showSignup()">Sign Up</button>
+            </div>
+
+            <!-- Sign In Form -->
+            <div id="signinForm">
+                <input type="email" id="signinEmail" placeholder="Email" />
+                <input type="password" id="signinPassword" placeholder="Password" />
+                <button class="submit" onclick="signin()">Sign In</button>
+                <div class="divider">or</div>
+                <button class="google" onclick="googleLogin()">
+                    Sign in with Google
+                </button>
+            </div>
+
+            <!-- Sign Up Form -->
+            <div id="signupForm" class="hidden">
+
+                <!-- Step 1: Email -->
+                <div id="step1">
+                    <input type="email" id="signupEmail" placeholder="Email" />
+                    <button class="submit" onclick="sendOTP()">Send OTP</button>
+                    <div class="divider">or</div>
+                    <button class="google" onclick="googleLogin()">
+                        Sign up with Google
+                    </button>
+                </div>
+
+                <!-- Step 2: OTP + Password -->
+                 <div id="step2" class="hidden">
+                    <p class="info">OTP sent to your email sir/madam!</p>
+                    <input type="text" id="otpInput" placeholder="Enter OTP" />
+                    <input type="password" id="signupPassword" placeholder="Create Password" />
+                    <button class="submit" onclick="verifyOTP()">Create Account</button>
+                    <button class="resend" onclick="resendOTP()">Resend OTP</button>
+                </div>
+
+            </div>
+
+            <!-- Message Box -->
+            <p id="message"></p>
+
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
